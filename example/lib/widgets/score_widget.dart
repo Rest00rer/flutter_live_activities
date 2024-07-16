@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ScoreWidget extends StatelessWidget {
   final String teamName;
-  final int score;
+  final String score;
   final Function(int) onScoreChanged;
   const ScoreWidget({
     Key? key,
@@ -38,7 +38,7 @@ class ScoreWidget extends StatelessWidget {
                   Icons.remove_rounded,
                   color: Colors.white,
                 ),
-                onPressed: () => onScoreChanged(score - 1),
+                onPressed: () {},
               ),
             ),
             const SizedBox(width: 10),
@@ -64,7 +64,7 @@ class ScoreWidget extends StatelessWidget {
                   Icons.add_rounded,
                   color: Colors.white,
                 ),
-                onPressed: () => onScoreChanged(score + 1),
+                onPressed: () {},
               ),
             ),
           ],

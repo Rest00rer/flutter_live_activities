@@ -8,6 +8,7 @@
 import ActivityKit
 import WidgetKit
 import SwiftUI
+import SVGKit
 
 @main
 struct Widgets: WidgetBundle {
@@ -34,12 +35,15 @@ let sharedDefault = UserDefaults(suiteName: "group.dimitridessus.liveactivities"
 struct FootballMatchApp: Widget {
   var body: some WidgetConfiguration {
     ActivityConfiguration(for: LiveActivitiesAppAttributes.self) { context in
+      let orderStatus = sharedDefault.string(forKey: context.attributes.prefixedKey("orderStatus"))!
+      let orderStatusImage = sharedDefault.string(forKey: context.attributes.prefixedKey("orderStatusImage"))!
+      let deliveryTime = sharedDefault.string(forKey: context.attributes.prefixedKey("deliveryTime"))!
+
       let matchName = sharedDefault.string(forKey: context.attributes.prefixedKey("matchName"))!
       
       let teamAName = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAName"))!
       let teamAState = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAState"))!
-      let teamAScore = sharedDefault.integer(forKey: context.attributes.prefixedKey("teamAScore"))
-      let teamALogo = sharedDefault.string(forKey: context.attributes.prefixedKey("teamALogo"))!
+      let teamAScore = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAScore"))!
       
       let teamBName = sharedDefault.string(forKey: context.attributes.prefixedKey("teamBName"))!
       let teamBState = sharedDefault.string(forKey: context.attributes.prefixedKey("teamBState"))!
@@ -65,7 +69,7 @@ struct FootballMatchApp: Widget {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
               
-              Text(teamAState)
+              Text(deliveryTime)
                 .lineLimit(1)
                 .font(.footnote)
                 .fontWeight(.bold)
@@ -77,7 +81,7 @@ struct FootballMatchApp: Widget {
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             
             ZStack {
-              if let uiImageTeamA = UIImage(contentsOfFile: teamALogo)
+              if let uiImageTeamA = UIImage(contentsOfFile: orderStatusImage)
               {
                 Image(uiImage: uiImageTeamA)
                   .resizable()
@@ -89,7 +93,7 @@ struct FootballMatchApp: Widget {
           
           VStack(alignment: .center, spacing: 6.0) {
             HStack {
-              Text("\(teamAScore)")
+              Text(orderStatus)
                 .font(.title)
                 .fontWeight(.bold)
               
@@ -161,12 +165,14 @@ struct FootballMatchApp: Widget {
         .padding(.horizontal, 2.0)
       }.frame(height: 160)
     } dynamicIsland: { context in
+      let orderStatus = sharedDefault.string(forKey: context.attributes.prefixedKey("orderStatus"))!
+      let orderStatusImage = sharedDefault.string(forKey: context.attributes.prefixedKey("orderStatusImage"))!
+      let deliveryTime = sharedDefault.string(forKey: context.attributes.prefixedKey("deliveryTime"))!
+
       let matchName = sharedDefault.string(forKey: context.attributes.prefixedKey("matchName"))!
-      
       let teamAName = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAName"))!
       let teamAState = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAState"))!
-      let teamAScore = sharedDefault.integer(forKey: context.attributes.prefixedKey("teamAScore"))
-      let teamALogo = sharedDefault.string(forKey: context.attributes.prefixedKey("teamALogo"))!
+      let teamAScore = sharedDefault.string(forKey: context.attributes.prefixedKey("teamAScore"))!
       
       let teamBName = sharedDefault.string(forKey: context.attributes.prefixedKey("teamBName"))!
       let teamBState = sharedDefault.string(forKey: context.attributes.prefixedKey("teamBState"))!
@@ -181,7 +187,7 @@ struct FootballMatchApp: Widget {
         DynamicIslandExpandedRegion(.leading) {
           VStack(alignment: .center, spacing: 2.0) {
             
-            if let uiImageTeamA = UIImage(contentsOfFile: teamALogo)
+            if let uiImageTeamA = UIImage(contentsOfFile: orderStatusImage)
             {
               Image(uiImage: uiImageTeamA)
                 .resizable()
@@ -243,7 +249,7 @@ struct FootballMatchApp: Widget {
         DynamicIslandExpandedRegion(.center) {
           VStack(alignment: .center, spacing: 6.0) {
             HStack {
-              Text("\(teamAScore)")
+              Text(orderStatus)
                 .font(.title)
                 .fontWeight(.bold)
               
@@ -282,32 +288,32 @@ struct FootballMatchApp: Widget {
         }
       } compactLeading: {
         HStack {
-          if let uiImageTeamA = UIImage(contentsOfFile: teamALogo)
+          if let uiImageTeamA = UIImage(contentsOfFile: orderStatusImage)
           {
             Image(uiImage: uiImageTeamA)
               .resizable()
               .frame(width: 26, height: 26)
           }
           
-          Text("\(teamAScore)")
+          Text(orderStatus)
             .font(.title)
             .fontWeight(.bold)
         }
       } compactTrailing: {
         HStack {
-          Text("\(teamBScore)")
+          Text("~ в \(deliveryTime)")
             .font(.title)
             .fontWeight(.bold)
-          if let uiImageTeamB = UIImage(contentsOfFile: teamBLogo)
-          {
-            Image(uiImage: uiImageTeamB)
-              .resizable()
-              .frame(width: 26, height: 26)
-          }
+        //   if let uiImageTeamB = UIImage(contentsOfFile: teamBLogo)
+        //   {
+        //     Image(uiImage: uiImageTeamB)
+        //       .resizable()
+        //       .frame(width: 26, height: 26)
+        //   }
         }
       } minimal: {
         ZStack {
-          if let uiImageTeamA = UIImage(contentsOfFile: teamALogo)
+          if let uiImageTeamA = UIImage(contentsOfFile: orderStatusImage)
           {
             Image(uiImage: uiImageTeamA)
               .resizable()

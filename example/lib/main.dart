@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
   StreamSubscription<UrlSchemeData>? urlSchemeSubscription;
   FootballGameLiveActivityModel? _footballGameLiveActivityModel;
 
-  int teamAScore = 0;
+  String teamAScore = '0';
   int teamBScore = 0;
 
   String teamAName = 'PSG';
@@ -58,8 +58,7 @@ class _HomeState extends State<Home> {
       print('Activity update: $event');
     });
 
-    urlSchemeSubscription =
-        _liveActivitiesPlugin.urlSchemeStream().listen((schemeData) {
+    urlSchemeSubscription = _liveActivitiesPlugin.urlSchemeStream().listen((schemeData) {
       setState(() {
         if (schemeData.path == '/stats') {
           showDialog(
@@ -124,16 +123,16 @@ class _HomeState extends State<Home> {
                               score: teamAScore,
                               teamName: teamAName,
                               onScoreChanged: (score) {
-                                setState(() {
-                                  teamAScore = score < 0 ? 0 : score;
-                                });
+                                // setState(() {
+                                //   teamAScore = score < 0 ? 0 : score;
+                                // });
                                 _updateScore();
                               },
                             ),
                           ),
                           Expanded(
                             child: ScoreWidget(
-                              score: teamBScore,
+                              score: teamBScore.toString(),
                               teamName: teamBName,
                               onScoreChanged: (score) {
                                 setState(() {
@@ -151,19 +150,17 @@ class _HomeState extends State<Home> {
               if (_latestActivityId == null)
                 TextButton(
                   onPressed: () async {
-                    _footballGameLiveActivityModel =
-                        FootballGameLiveActivityModel(
+                    _footballGameLiveActivityModel = FootballGameLiveActivityModel(
+                      orderStatus: 'В пути',
+                      orderStatusImage: LiveActivityImageFromAsset('assets/images/en_route.png'),
+                      deliveryTime: '15:27',
                       matchName: 'World cup ⚽️',
                       teamAName: 'PSG',
                       teamAState: 'Home',
-                      teamALogo: LiveActivityImageFromAsset(
-                        'assets/images/psg.png',
-                      ),
-                      teamBLogo: LiveActivityImageFromAsset(
-                        'assets/images/chelsea.png',
-                      ),
+                      teamBLogo: LiveActivityImageFromAsset('assets/images/en_route.png'),
                       teamBName: 'Chelsea',
                       teamBState: 'Guest',
+                      teamAScore: 'В пути',
                       matchStartDate: DateTime.now(),
                       matchEndDate: DateTime.now().add(
                         const Duration(
@@ -173,8 +170,7 @@ class _HomeState extends State<Home> {
                       ),
                     );
 
-                    final activityId =
-                        await _liveActivitiesPlugin.createActivity(
+                    final activityId = await _liveActivitiesPlugin.createActivity(
                       _footballGameLiveActivityModel!.toMap(),
                     );
                     setState(() => _latestActivityId = activityId);
@@ -195,8 +191,7 @@ class _HomeState extends State<Home> {
               if (_latestActivityId == null)
                 TextButton(
                   onPressed: () async {
-                    final supported =
-                        await _liveActivitiesPlugin.areActivitiesEnabled();
+                    final supported = await _liveActivitiesPlugin.areActivitiesEnabled();
                     if (context.mounted) {
                       showDialog(
                         context: context,

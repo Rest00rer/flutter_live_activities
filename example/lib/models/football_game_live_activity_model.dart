@@ -1,14 +1,17 @@
 import 'package:live_activities/models/live_activity_image.dart';
 
 class FootballGameLiveActivityModel {
+  final String? orderStatus;
+  final LiveActivityImageFromAsset? orderStatusImage;
+  final String? deliveryTime;
+
   final DateTime? matchStartDate;
   final DateTime? matchEndDate;
   final String? matchName;
 
   final String? teamAName;
   final String? teamAState;
-  final int? teamAScore;
-  final LiveActivityImageFromAsset? teamALogo;
+  final String? teamAScore;
 
   final String? teamBName;
   final String? teamBState;
@@ -16,12 +19,14 @@ class FootballGameLiveActivityModel {
   final LiveActivityImageFromAsset? teamBLogo;
 
   FootballGameLiveActivityModel({
+    required this.orderStatus,
+    required this.deliveryTime,
     this.teamAName,
     this.matchName,
     this.teamAState,
-    this.teamAScore = 0,
+    this.teamAScore = '0',
     this.teamBScore = 0,
-    this.teamALogo,
+    this.orderStatusImage,
     this.teamBName,
     this.teamBState,
     this.teamBLogo,
@@ -31,10 +36,12 @@ class FootballGameLiveActivityModel {
 
   Map<String, dynamic> toMap() {
     final map = {
+      'orderStatus': orderStatus,
+      'orderStatusImage': orderStatusImage,
+      'deliveryTime': deliveryTime,
       'matchName': matchName,
       'teamAName': teamAName,
       'teamAState': teamAState,
-      'teamALogo': teamALogo,
       'teamAScore': teamAScore,
       'teamBScore': teamBScore,
       'teamBName': teamBName,
@@ -48,26 +55,30 @@ class FootballGameLiveActivityModel {
   }
 
   FootballGameLiveActivityModel copyWith({
+    LiveActivityImageFromAsset? orderStatusImage,
+    String? orderStatus,
+    String? deliveryTime,
     DateTime? matchStartDate,
     DateTime? matchEndDate,
     String? matchName,
     String? teamAName,
     String? teamAState,
-    int? teamAScore,
-    LiveActivityImageFromAsset? teamALogo,
+    String? teamAScore,
     String? teamBName,
     String? teamBState,
     int? teamBScore,
     LiveActivityImageFromAsset? teamBLogo,
   }) {
     return FootballGameLiveActivityModel(
+      orderStatus: orderStatus ?? this.orderStatus,
+      orderStatusImage: orderStatusImage ?? this.orderStatusImage,
+      deliveryTime: deliveryTime ?? this.deliveryTime,
       matchStartDate: matchStartDate ?? this.matchStartDate,
       matchEndDate: matchEndDate ?? this.matchEndDate,
       matchName: matchName ?? this.matchName,
       teamAName: teamAName ?? this.teamAName,
       teamAState: teamAState ?? this.teamAState,
       teamAScore: teamAScore ?? this.teamAScore,
-      teamALogo: teamALogo ?? this.teamALogo,
       teamBName: teamBName ?? this.teamBName,
       teamBState: teamBState ?? this.teamBState,
       teamBScore: teamBScore ?? this.teamBScore,
